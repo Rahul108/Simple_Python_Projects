@@ -1,8 +1,9 @@
 from urllib.request import Request, urlopen
+import re
 
 url = "https://realpython.com/python-web-scraping-practical-introduction/"
 
-def find_information(tag, html):
+def find_information_with_string_method(tag, html):
     open_tag = "<" + tag + ">"
     close_tag = "</" + tag + ">"
     start_tag_index = html.find(open_tag)
@@ -11,6 +12,13 @@ def find_information(tag, html):
     title = html[start_index:end_index]
     return title
 
+
+def find_information_with_regex(tag, html):
+    pattern = "<" + tag + ".*?>.*?</" + tag + ".*?>"
+    information = re.search(pattern, html, re.IGNORECASE)
+    title = information.group()
+    title = re.sub("<.*?>", "", title)
+    return title
 
 def get_html(url):
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -22,8 +30,8 @@ def get_html(url):
 
 def get_result(url, tag):
     html = get_html(url)
-    information = find_information(tag, html)
-    return information
-
+    information = find_information_with_string_method(tag, html)
+    information_using_regex = find_information_with_regex(tag, html)
+    return information_using_regex
 
 print(get_result(url, 'title'))
