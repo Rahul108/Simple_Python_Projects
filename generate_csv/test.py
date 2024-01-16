@@ -26,7 +26,7 @@ with open('results.csv', 'w', newline='') as file:
         ]
         headers= {}
 
-        response = requests.request("POST", url, headers=headers, data = payload, files = files)
+        response = requests.request("POST", url, headers=headers, data = payload, files = files, timeout=60)
 
         #  fetch particular response from json
         get_json = response.json()

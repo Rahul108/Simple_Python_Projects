@@ -6,7 +6,7 @@ payload = {}
 files = {}
 headers= {}
 
-response = requests.request("GET", url, headers=headers, data = payload, files = files)
+response = requests.request("GET", url, headers=headers, data = payload, files = files, timeout=60)
 
 # print(response.text.encode('utf8'))
 
